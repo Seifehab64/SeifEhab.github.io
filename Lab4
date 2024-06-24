@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<Title>"Welcome to our store!"</Title>
+ <script>
+var name;
+
+var itemType ;
+
+var numItems;
+
+var currentDate = new Date();
+
+var hour = currentDate.getHours();
+
+var deliveryDate = new Date(currentDate);
+
+deliveryDate.setDate(currentDate.getDate() + 7);
+
+var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+var deliveryDateString = deliveryDate.toLocaleDateString('en-US', options);
+
+name = window.prompt("Please Enter your name", "Seif");
+
+itemType = window.prompt("Please enter the item you are buying", "Item Type");
+
+numItems = parseInt(window.prompt("Please enter the number of items you are buying", "1"), 10);
+
+if(numItems >= 1 && numItems <= 99){
+    document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("greeting").innerText = "Good Afternoon " + name + ", Thank you for ordering!";
+    document.getElementById("orderDetails").innerText = "You ordered " + numItems + " " + itemType + "(s). Your order will arrive on " + deliveryDateString + ".";
+    });
+} else {
+    document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("greeting").innerText = "Invalid number of items. Please refresh and try again.";
+                document.getElementById("orderDetails").innerText = "";
+            });
+}
+
+
+
+</script>
+
+</html>
+
+
+<body>
+    <h1 id="greeting"></h1>
+    <p id="orderDetails"></p>
+
+</body>
+</html>
+
+
