@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <title>Welcome to our store!</title>
+    <script>
+        function submitForm() {
+            var elements = document.getElementById("myForm").elements;
+            var elemsArr1 = Array.from(elements);
+            var submission = {};
+            var passwordValid = true;
+
+            elemsArr1.forEach((element) => {
+                if (element.name) {  
+                    if (element.name === "Password" || element.name === "Confirm Password") {
+                        if (!/[!?]/.test(element.value)) { // Check for special character
+                    document.getElementById("demo").innerText = "Registration failed: Password must include a special character (! or ?)";
+                            passwordValid = false;
+                    return;
+                        }
+                        console.log(element.name + ": " + "*".repeat(element.value.length));  // Display asterisks
+                    } else {
+                        console.log(element.name + ": " + element.value);
+                    }
+                }
+            });
+
+            if (passwordValid) {
+    document.getElementById("demo").innerText = "Registration successful: " + JSON.stringify(submission);
+}
+        }
+    </script>
+</head>
+<body>
+     <h1>Welcome to STK Auto Leasing!</h1>
+    
+    <form id="myForm">
+        <label for="First name">First name:</label>
+        <input type="text" name="Firstname" value=""><br>
+
+        <label for="Last name">Last name:</label>
+        <input type="text" name="Lastname" value=""><br>
+
+        <label for="Email">Email Address:</label>
+        <input type="text" name="Email Address" value=""><br>
+
+        <label for="Phone">Phone Number:</label>
+        <input type="text" name="Phone Number" value=""><br>
+
+        <label for="Password">Password:</label>
+        <input type="text" name="Password" value=""><br>
+
+        <label for="Confirm Password">Confirm Password:</label>
+        <input type="text" name="Confirm Password" value=""><br>
+    </form>    
+
+    <button onclick="submitForm()">Submit</button>
+    <p id="demo"></p>
+</body>
+</html>
