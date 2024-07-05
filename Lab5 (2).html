@@ -23,7 +23,7 @@
                         }
 
                         if (!hasSpecialChar) {
-                            document.getElementById("demo").innerText = "Registration failed: Password must include a special character (! or ?)";
+                            document.getElementById("demo").textContent = "Registration failed: Password must include a special character (! or ?)";
                             passwordValid = false;
                             return;
                         }
@@ -35,7 +35,7 @@
             });
 
             if (passwordValid) {
-                document.getElementById("demo").innerText = "Registration successful";
+                document.getElementById("demo").textContent = "Registration successful";
             }
         }
     </script>
