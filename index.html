@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Recipe</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Food Recipe</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="categoriesDropdown">
+                        <!-- Categories will be inserted here dynamically -->
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <div class="container my-4">
+            <h1>Welcome to Food Recipe</h1>
+            <!-- Main content here -->
+        </div>
+        <div class="container my-6">
+            <p class="lead">Discover a variety of delicious recipes from different categories around the world.</p>
+            <hr class="my-4">
+            <p>Use the navigation bar to explore meal categories, search for specific recipes, or learn more about us.</p>
+        </div>
+        <div class="search-filters">
+            <form id="searchForm" class="form-inline">
+                <input type="text" id="searchInput" class="form-control mb-2 mr-sm-2" placeholder="Search meals by name" oninput="handleSearchInput()">
+                <select id="categoryFilter" class="form-control mb-2 mr-sm-2" onchange="handleCategoryChange()">
+                    <option value="">All Categories</option>
+                </select>
+                <select id="areaFilter" class="form-control mb-2 mr-sm-2" onchange="handleAreaChange()">
+                    <option value="">All Areas</option>
+                </select>
+                <select id="ingredientFilter" class="form-control mb-2 mr-sm-2" onchange="handleIngredientChange()">
+                    <option value="">All Ingredients</option>
+                </select>
+            </form>
+        </div>
+        <div id="content"></div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2024 Food Recipe. All rights reserved.
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>

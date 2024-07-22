@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">Food Recipe</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About Us</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="categoriesDropdown" id="categoriesDropdownMenu">
+                        <!-- Categories will be populated here -->
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-4">
+        <h1 class="mb-4">Meal Details</h1>
+        <div id="mealDetails" class="row">
+            <!-- Meal details will be populated here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2024 Food Recipe. All rights reserved.
+    </footer>
+
+    <!-- Bootstrap and Custom JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mealId = urlParams.get('id');
+            if (mealId) {
+                fetchMealDetails(mealId);
+            } else {
+                showError('No meal ID provided.');
+            }
+
+            fetchCategories(); // Fetch categories for the dropdown
+        });
+
+        function fetchCategories() {
+            fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
+                .then(response => response.json())
+                .then(data => {
+                    populateCategoriesDropdown(data.categories);
+                })
+                .catch(error => {
+                    showError('Error fetching categories. Please check your internet connection and try again.');
+                    console.error('Error fetching categories:', error);
+                });
+        }
+
+        function populateCategoriesDropdown(categories) {
+            let dropdownMenu = document.getElementById('categoriesDropdownMenu');
+            dropdownMenu.innerHTML = ''; // Clear existing content
+            categories.forEach(category => {
+                let item = document.createElement('a');
+                item.className = 'dropdown-item';
+                item.href = `index.html?category=${category.strCategory}`;
+                item.innerText = category.strCategory;
+                dropdownMenu.appendChild(item);
+            });
+        }
+
+        function fetchMealDetails(id) {
+            fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.meals && data.meals.length > 0) {
+                        displayMealDetails(data.meals[0]);
+                    } else {
+                        showError('No meal details found.');
+                    }
+                })
+                .catch(error => {
+                    showError('Error fetching meal details. Please check your internet connection and try again.');
+                    console.error('Error fetching meal details:', error);
+                });
+        }
+
+        function displayMealDetails(meal) {
+            const mealDetails = `
+                <div class="col-md-6">
+                    <img src="${meal.strMealThumb}" class="img-fluid rounded" alt="${meal.strMeal}">
+                </div>
+                <div class="col-md-6">
+                    <h2>${meal.strMeal}</h2>
+                    <h4>Category: ${meal.strCategory}</h4>
+                    <h4>Cuisine: ${meal.strArea}</h4>
+                    <h4>Ingredients:</h4>
+                    <ul>
+                        ${getIngredients(meal).map(ingredient => `<li>${ingredient}</li>`).join('')}
+                    </ul>
+                    <h4>Instructions:</h4>
+                    <p>${meal.strInstructions}</p>
+                    <a href="${meal.strYoutube}" target="_blank" class="btn btn-danger">Watch Recipe Video</a>
+                </div>
+            `;
+            document.getElementById('mealDetails').innerHTML = mealDetails;
+        }
+
+        function getIngredients(meal) {
+            const ingredients = [];
+            for (let i = 1; i <= 20; i++) {
+                const ingredient = meal[`strIngredient${i}`];
+                const measure = meal[`strMeasure${i}`];
+                if (ingredient) {
+                    ingredients.push(`${ingredient} (${measure})`);
+                }
+            }
+            return ingredients;
+        }
+
+        function showError(message) {
+            document.getElementById('mealDetails').innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`;
+        }
+    </script>
+</body>
+</html>
