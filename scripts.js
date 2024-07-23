@@ -1,4 +1,6 @@
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
     fetchCategories();
     fetchAreas();
     fetchIngredients();
@@ -41,6 +43,7 @@ function clearFilters(excludeField) {
 }
 
 function populateFilterDropdown(dropdownId, items, itemKey) {
+    console.log(`Populating ${dropdownId} with items`, items);
     let dropdown = document.getElementById(dropdownId);
     dropdown.innerHTML = `<option value="">All ${itemKey.charAt(0).toUpperCase() + itemKey.slice(1)}s</option>`;
     items.forEach(item => {
@@ -52,9 +55,11 @@ function populateFilterDropdown(dropdownId, items, itemKey) {
 }
 
 function fetchAreas() {
+    console.log("Fetching areas");
     fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list')
         .then(response => response.json())
         .then(data => {
+            console.log("Areas data:", data);
             if (data.meals) {
                 populateFilterDropdown('areaFilter', data.meals, 'strArea');
             } else {
@@ -68,9 +73,11 @@ function fetchAreas() {
 }
 
 function fetchIngredients() {
+    console.log("Fetching ingredients");
     fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
         .then(response => response.json())
         .then(data => {
+            console.log("Ingredients data:", data);
             if (data.meals) {
                 populateFilterDropdown('ingredientFilter', data.meals, 'strIngredient');
             } else {
@@ -84,9 +91,11 @@ function fetchIngredients() {
 }
 
 function fetchCategories() {
+    console.log("Fetching categories");
     fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
         .then(response => response.json())
         .then(data => {
+            console.log("Categories data:", data);
             if (data.categories) {
                 populateCategoriesDropdown(data.categories);
                 populateFilterDropdown('categoryFilter', data.categories, 'strCategory');
@@ -102,9 +111,11 @@ function fetchCategories() {
 }
 
 function fetchMealsByLetter(letter) {
+    console.log(`Fetching meals by letter: ${letter}`);
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`)
         .then(response => response.json())
         .then(data => {
+            console.log("Meals by letter data:", data);
             if (data.meals) {
                 displayMeals(data.meals);
             } else {
@@ -118,6 +129,7 @@ function fetchMealsByLetter(letter) {
 }
 
 function displayCategories(categories) {
+    console.log("Displaying categories", categories);
     let content = '<h2 class="my-4">Meal Categories</h2><div class="row">';
     categories.forEach(category => {
         content += `
@@ -137,6 +149,7 @@ function displayCategories(categories) {
 }
 
 function populateCategoriesDropdown(categories) {
+    console.log("Populating categories dropdown", categories);
     let dropdown = document.getElementById('categoriesDropdown');
     dropdown.innerHTML = '';
     categories.forEach(category => {
@@ -149,9 +162,11 @@ function populateCategoriesDropdown(categories) {
 }
 
 function fetchMealsByCategory(category) {
+    console.log(`Fetching meals by category: ${category}`);
     fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
         .then(response => response.json())
         .then(data => {
+            console.log("Meals by category data:", data);
             if (data.meals) {
                 displayMeals(data.meals);
             } else {
@@ -165,6 +180,7 @@ function fetchMealsByCategory(category) {
 }
 
 function displayMeals(meals) {
+    console.log("Displaying meals", meals);
     let content = '<h2 class="my-4">Meals</h2><div class="row">';
     meals.forEach(meal => {
         content += `
@@ -199,9 +215,12 @@ function searchMeals() {
         url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`;
     }
 
+    console.log(`Searching meals with URL: ${url}`);
+
     fetch(url)
         .then(response => response.json())
         .then(data => {
+            console.log("Search meals data:", data);
             if (data.meals) {
                 displayMeals(data.meals);
             } else {
